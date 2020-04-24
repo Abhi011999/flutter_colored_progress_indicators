@@ -1,6 +1,6 @@
 name: flutter_colored_progress_indicators
 description: An alternate animated progress indicator widget for flutter's CircularProgressIndicator and LinearProgressIndicator with Google color accents.
-version: 1.0.0
+version: 1.0.1
 homepage: https://github.com/Abhi011999/flutter_colored_progress_indicators
 repository: https://github.com/Abhi011999/flutter_colored_progress_indicators
 
