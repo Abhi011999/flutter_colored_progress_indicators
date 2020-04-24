@@ -11,18 +11,21 @@ class ColoredLinearProgressIndicator extends ProgressIndicator {
     String semanticsLabel,
     String semanticsValue,
   }) : super(
-         key: key,
-         value: value,
-         backgroundColor: backgroundColor,
-         semanticsLabel: semanticsLabel,
-         semanticsValue: semanticsValue,
-       );
+          key: key,
+          value: value,
+          backgroundColor: backgroundColor,
+          semanticsLabel: semanticsLabel,
+          semanticsValue: semanticsValue,
+        );
 
   @override
-  _ColoredLinearProgressIndicatorState createState() => _ColoredLinearProgressIndicatorState();
+  _ColoredLinearProgressIndicatorState createState() =>
+      _ColoredLinearProgressIndicatorState();
 }
 
-class _ColoredLinearProgressIndicatorState extends State<ColoredLinearProgressIndicator> with SingleTickerProviderStateMixin {
+class _ColoredLinearProgressIndicatorState
+    extends State<ColoredLinearProgressIndicator>
+    with SingleTickerProviderStateMixin {
   AnimationController _controller;
   Animation<int> _kStepTween;
   Color _colorValue = Colors.blueAccent[700];

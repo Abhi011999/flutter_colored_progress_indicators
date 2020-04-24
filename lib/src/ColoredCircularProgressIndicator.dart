@@ -12,21 +12,24 @@ class ColoredCircularProgressIndicator extends ProgressIndicator {
     String semanticsLabel,
     String semanticsValue,
   }) : super(
-         key: key,
-         value: value,
-         backgroundColor: backgroundColor,
-         semanticsLabel: semanticsLabel,
-         semanticsValue: semanticsValue,
-       );
+          key: key,
+          value: value,
+          backgroundColor: backgroundColor,
+          semanticsLabel: semanticsLabel,
+          semanticsValue: semanticsValue,
+        );
 
   /// The width of the line used to draw the circle.
   final double strokeWidth;
 
   @override
-  _ColoredCircularProgressIndicatorState createState() => _ColoredCircularProgressIndicatorState();
+  _ColoredCircularProgressIndicatorState createState() =>
+      _ColoredCircularProgressIndicatorState();
 }
 
-class _ColoredCircularProgressIndicatorState extends State<ColoredCircularProgressIndicator> with SingleTickerProviderStateMixin {
+class _ColoredCircularProgressIndicatorState
+    extends State<ColoredCircularProgressIndicator>
+    with SingleTickerProviderStateMixin {
   AnimationController _controller;
   Animation<int> _kStepTween;
   Color _colorValue = Colors.blueAccent[700];
