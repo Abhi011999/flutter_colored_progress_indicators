@@ -1,5 +1,7 @@
 # flutter_colored_progress_indicators <span> | </span> <a href="https://pub.dev/packages/flutter_colored_progress_indicators"><img src="https://img.shields.io/badge/pub.dev-v1.0.0-red?style=flat-square" alt="flutter"/></a> <a href="https://flutter.dev/"><img src="https://img.shields.io/badge/Built with-flutter-blue?style=flat-square" alt="flutter"/></a> <a href="https://dart.dev/"><img src="https://img.shields.io/badge/Language-Dart-purple?style=flat-square" alt="flutter"/></a>
 
+<p align="center"><img src="https://raw.githubusercontent.com/Abhi011999/flutter_colored_progress_indicators/master/images/example_readme.gif" alt="example"/></p>
+
 An alternate animated progress indicator widget for flutter's [CircularProgressIndicator](https://api.flutter.dev/flutter/material/CircularProgressIndicator-class.html) and [LinearProgressIndicator](https://api.flutter.dev/flutter/material/LinearProgressIndicator-class.html) with Google color accents.
 
 ## Features
