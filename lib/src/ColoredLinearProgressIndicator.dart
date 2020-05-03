@@ -1,3 +1,8 @@
+// Copyright (c) 2020 Abhishek Dubey.
+//
+// Use of this source code is governed by a MIT license that can be
+// found in the LICENSE file.
+
 import 'package:flutter/material.dart';
 
 class ColoredLinearProgressIndicator extends ProgressIndicator {
@@ -19,13 +24,10 @@ class ColoredLinearProgressIndicator extends ProgressIndicator {
         );
 
   @override
-  _ColoredLinearProgressIndicatorState createState() =>
-      _ColoredLinearProgressIndicatorState();
+  _ColoredLinearProgressIndicatorState createState() => _ColoredLinearProgressIndicatorState();
 }
 
-class _ColoredLinearProgressIndicatorState
-    extends State<ColoredLinearProgressIndicator>
-    with SingleTickerProviderStateMixin {
+class _ColoredLinearProgressIndicatorState extends State<ColoredLinearProgressIndicator> with SingleTickerProviderStateMixin {
   AnimationController _controller;
   Animation<int> _kStepTween;
   Color _colorValue = Colors.blueAccent[700];
@@ -37,16 +39,11 @@ class _ColoredLinearProgressIndicatorState
     ).animate(_controller)
       ..addListener(() {
         setState(() {
-          if (_kStepTween.value == 0 && _colorValue != Colors.blueAccent[700])
-            _colorValue = Colors.blueAccent[700];
-          if (_kStepTween.value == 1 && _colorValue != Colors.redAccent[700])
-            _colorValue = Colors.redAccent[700];
-          if (_kStepTween.value == 2 && _colorValue != Colors.yellowAccent[700])
-            _colorValue = Colors.yellowAccent[700];
-          if (_kStepTween.value == 3 && _colorValue != Colors.greenAccent[700])
-            _colorValue = Colors.greenAccent[700];
-          if (_kStepTween.value == 4 && _colorValue != Colors.purpleAccent[700])
-            _colorValue = Colors.purpleAccent[700];
+          if (_kStepTween.value == 0 && _colorValue != Colors.blueAccent[700]) _colorValue = Colors.blueAccent[700];
+          if (_kStepTween.value == 1 && _colorValue != Colors.redAccent[700]) _colorValue = Colors.redAccent[700];
+          if (_kStepTween.value == 2 && _colorValue != Colors.yellowAccent[700]) _colorValue = Colors.yellowAccent[700];
+          if (_kStepTween.value == 3 && _colorValue != Colors.greenAccent[700]) _colorValue = Colors.greenAccent[700];
+          if (_kStepTween.value == 4 && _colorValue != Colors.purpleAccent[700]) _colorValue = Colors.purpleAccent[700];
         });
       });
     _controller.repeat();
