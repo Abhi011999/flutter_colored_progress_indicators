@@ -29,37 +29,65 @@ class ColoredProgressDemo extends StatefulWidget {
 }
 
 class _ColoredProgressDemoState extends State<ColoredProgressDemo> {
+  Future<void> _refreshState() async {
+    await Future.delayed(Duration(seconds: 5));
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Text("Without animation"),
-        SizedBox(height: 50.0),
-        SizedBox(
-          height: 100.0,
-          width: 100.0,
-          child: CircularProgressIndicator(strokeWidth: 8.0),
+    return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        title: Text("Scroll from top for Refresh Indicator"),
+      ),
+      body: ColoredRefreshIndicator(
+        onRefresh: () => _refreshState(),
+        child: SingleChildScrollView(
+          padding: EdgeInsets.symmetric(vertical: 20.0),
+          physics: AlwaysScrollableScrollPhysics(),
+          child: Center(
+            child: Column(
+              children: [
+                Text(
+                  "Without Colorful Accents (default)",
+                  textScaleFactor: 2.0,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(decoration: TextDecoration.underline),
+                ),
+                SizedBox(height: 50.0),
+                SizedBox(
+                  height: 100.0,
+                  width: 100.0,
+                  child: CircularProgressIndicator(strokeWidth: 8.0),
+                ),
+                SizedBox(height: 50.0),
+                SizedBox(
+                  width: 400.0,
+                  child: LinearProgressIndicator(),
+                ),
+                SizedBox(height: 80.0),
+                Text(
+                  "With Colorful Accents",
+                  textScaleFactor: 2.0,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(decoration: TextDecoration.underline),
+                ),
+                SizedBox(height: 50.0),
+                SizedBox(
+                  width: 100.0,
+                  height: 100.0,
+                  child: ColoredCircularProgressIndicator(strokeWidth: 8.0),
+                ),
+                SizedBox(height: 50.0),
+                SizedBox(
+                  width: 400.0,
+                  child: ColoredLinearProgressIndicator(),
+                ),
+              ],
+            ),
+          ),
         ),
-        SizedBox(height: 50.0),
-        SizedBox(
-          width: 400.0,
-          child: LinearProgressIndicator(),
-        ),
-        SizedBox(height: 100.0),
-        Text("With colorful accents"),
-        SizedBox(height: 50.0),
-        SizedBox(
-          width: 100.0,
-          height: 100.0,
-          child: ColoredCircularProgressIndicator(strokeWidth: 8.0),
-        ),
-        SizedBox(height: 50.0),
-        SizedBox(
-          width: 400.0,
-          child: ColoredLinearProgressIndicator(),
-        ),
-      ],
+      ),
     );
   }
 }
