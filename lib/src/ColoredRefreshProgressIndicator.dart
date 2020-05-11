@@ -8,6 +8,8 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 
+import 'tweens.dart';
+
 class _ColoredRefreshProgressIndicatorPainter extends CustomPainter {
   _ColoredRefreshProgressIndicatorPainter({
     this.backgroundColor,
@@ -157,24 +159,7 @@ final Animatable<double> _kRotationTween = CurveTween(curve: const SawTooth(5));
 class _ColoredRefreshProgressIndicatorState extends State<ColoredRefreshProgressIndicator> with SingleTickerProviderStateMixin {
   AnimationController _controller;
   final double _indicatorSize = 40.0;
-  Animation<int> _kStepTween2;
-  Color _colorValue = Colors.blueAccent[700];
-
-  void _refreshColorAnim() {
-    _kStepTween2 = StepTween(
-      begin: 0,
-      end: 5,
-    ).animate(_controller)
-      ..addListener(() {
-        setState(() {
-          if (_kStepTween2.value == 0 && _colorValue != Colors.blueAccent[700]) _colorValue = Colors.blueAccent[700];
-          if (_kStepTween2.value == 1 && _colorValue != Colors.redAccent[700]) _colorValue = Colors.redAccent[700];
-          if (_kStepTween2.value == 2 && _colorValue != Colors.yellowAccent[700]) _colorValue = Colors.yellowAccent[700];
-          if (_kStepTween2.value == 3 && _colorValue != Colors.greenAccent[700]) _colorValue = Colors.greenAccent[700];
-          if (_kStepTween2.value == 4 && _colorValue != Colors.purpleAccent[700]) _colorValue = Colors.purpleAccent[700];
-        });
-      });
-  }
+  Animatable<Color> _tweenSequence = kCircularTweenSequence;
 
   @override
   void initState() {
@@ -184,7 +169,6 @@ class _ColoredRefreshProgressIndicatorState extends State<ColoredRefreshProgress
       vsync: this,
     );
     if (widget.value == null) {
-      _refreshColorAnim();
       _controller.repeat();
     }
   }
@@ -193,7 +177,6 @@ class _ColoredRefreshProgressIndicatorState extends State<ColoredRefreshProgress
   void didUpdateWidget(ColoredRefreshProgressIndicator oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (widget.value == null && !_controller.isAnimating) {
-      _refreshColorAnim();
       _controller.repeat();
     }
     else if (widget.value != null && _controller.isAnimating)
@@ -231,7 +214,7 @@ class _ColoredRefreshProgressIndicatorState extends State<ColoredRefreshProgress
             child: CustomPaint(
               painter: _ColoredRefreshProgressIndicatorPainter(
                 value: null, // Draw the indeterminate progress indicator.
-                valueColor: _colorValue,
+                valueColor: _tweenSequence.evaluate(AlwaysStoppedAnimation(_controller.value)),
                 headValue: headValue,
                 tailValue: tailValue,
                 stepValue: stepValue,

@@ -5,6 +5,8 @@
 
 import 'package:flutter/material.dart';
 
+import 'tweens.dart';
+
 class ColoredCircularProgressIndicator extends ProgressIndicator {
   /// Creates a colored circular progress indicator.
   ///
@@ -33,25 +35,7 @@ class ColoredCircularProgressIndicator extends ProgressIndicator {
 
 class _ColoredCircularProgressIndicatorState extends State<ColoredCircularProgressIndicator> with SingleTickerProviderStateMixin {
   AnimationController _controller;
-  Animation<int> _kStepTween;
-  Color _colorValue = Colors.blueAccent[700];
-
-  void _circularColorAnim() {
-    _kStepTween = StepTween(
-      begin: 0,
-      end: 5,
-    ).animate(_controller)
-      ..addListener(() {
-        setState(() {
-          if (_kStepTween.value == 0 && _colorValue != Colors.blueAccent[700]) _colorValue = Colors.blueAccent[700];
-          if (_kStepTween.value == 1 && _colorValue != Colors.redAccent[700]) _colorValue = Colors.redAccent[700];
-          if (_kStepTween.value == 2 && _colorValue != Colors.yellowAccent[700]) _colorValue = Colors.yellowAccent[700];
-          if (_kStepTween.value == 3 && _colorValue != Colors.greenAccent[700]) _colorValue = Colors.greenAccent[700];
-          if (_kStepTween.value == 4 && _colorValue != Colors.purpleAccent[700]) _colorValue = Colors.purpleAccent[700];
-        });
-      });
-    _controller.repeat();
-  }
+  Animatable<Color> _tweenSequence = kCircularTweenSequence;
 
   @override
   void initState() {
@@ -59,8 +43,7 @@ class _ColoredCircularProgressIndicatorState extends State<ColoredCircularProgre
     _controller = AnimationController(
       duration: const Duration(seconds: 5),
       vsync: this,
-    );
-    _circularColorAnim();
+    )..repeat();
   }
 
   @override
@@ -71,14 +54,18 @@ class _ColoredCircularProgressIndicatorState extends State<ColoredCircularProgre
 
   @override
   Widget build(BuildContext context) {
-    return CircularProgressIndicator(
-      key: widget.key,
-      value: widget.value,
-      backgroundColor: widget.backgroundColor,
-      valueColor: AlwaysStoppedAnimation<Color>(_colorValue),
-      strokeWidth: widget.strokeWidth,
-      semanticsLabel: widget.semanticsLabel,
-      semanticsValue: widget.semanticsValue,
-    );
+    return AnimatedBuilder(
+        animation: _controller,
+        builder: (context, child) {
+          return CircularProgressIndicator(
+            key: widget.key,
+            value: widget.value,
+            backgroundColor: widget.backgroundColor,
+            valueColor: AlwaysStoppedAnimation<Color>(_tweenSequence.evaluate(AlwaysStoppedAnimation(_controller.value))),
+            strokeWidth: widget.strokeWidth,
+            semanticsLabel: widget.semanticsLabel,
+            semanticsValue: widget.semanticsValue,
+          );
+        });
   }
 }
