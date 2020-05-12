@@ -77,10 +77,10 @@ See [CHANGELOG.md](https://github.com/Abhi011999/flutter_colored_progress_indica
 
 ## TO-DO
 
-- Shorter names for indicators
-- Default color accents (they are a bit dark now)
-- Animation speed control factor
-- Refactoring
+- [ ] Shorter names for indicators
+- [x] Default color accents (they are a bit dark now)
+- [ ] Animation speed control factor
+- [x] Refactoring
 
 ## Contributions
 
