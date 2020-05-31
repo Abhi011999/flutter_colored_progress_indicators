@@ -10,6 +10,8 @@ import 'package:flutter/material.dart';
 
 import 'tweens.dart';
 
+const int _kIndeterminateCircularDuration = 1333 * 2222;
+
 class _ColoredRefreshProgressIndicatorPainter extends CustomPainter {
   _ColoredRefreshProgressIndicatorPainter({
     this.backgroundColor,
@@ -17,13 +19,13 @@ class _ColoredRefreshProgressIndicatorPainter extends CustomPainter {
     this.value,
     this.headValue,
     this.tailValue,
-    this.stepValue,
+    this.offsetValue,
     this.rotationValue,
     this.strokeWidth,
     this.arrowheadScale
   }) : arcStart = value != null
          ? _startAngle
-         : _startAngle + tailValue * 3 / 2 * math.pi + rotationValue * math.pi * 1.7 - stepValue * 0.8 * math.pi,
+         : _startAngle + tailValue * 3 / 2 * math.pi + rotationValue * math.pi * 2.0 + offsetValue * 0.5 * math.pi,
        arcSweep = value != null
          ? (value.clamp(0.0, 1.0) as double) * _sweep
          : math.max(headValue * 3 / 2 * math.pi - tailValue * 3 / 2 * math.pi, _epsilon);
@@ -33,7 +35,7 @@ class _ColoredRefreshProgressIndicatorPainter extends CustomPainter {
   final double value;
   final double headValue;
   final double tailValue;
-  final int stepValue;
+  final double offsetValue;
   final double rotationValue;
   final double strokeWidth;
   final double arcStart;
@@ -103,7 +105,7 @@ class _ColoredRefreshProgressIndicatorPainter extends CustomPainter {
         || oldPainter.value != value
         || oldPainter.headValue != headValue
         || oldPainter.tailValue != tailValue
-        || oldPainter.stepValue != stepValue
+        || oldPainter.offsetValue != offsetValue
         || oldPainter.rotationValue != rotationValue
         || oldPainter.strokeWidth != strokeWidth;
   }
@@ -139,24 +141,24 @@ class ColoredRefreshProgressIndicator extends ProgressIndicator {
   _ColoredRefreshProgressIndicatorState createState() => _ColoredRefreshProgressIndicatorState();
 }
 
-// Tweens used by colored refresh indicator
-final Animatable<double> _kStrokeHeadTween = CurveTween(
-  curve: const Interval(0.0, 0.5, curve: Curves.fastOutSlowIn),
-).chain(CurveTween(
-  curve: const SawTooth(5),
-));
-
-final Animatable<double> _kStrokeTailTween = CurveTween(
-  curve: const Interval(0.5, 1.0, curve: Curves.fastOutSlowIn),
-).chain(CurveTween(
-  curve: const SawTooth(5),
-));
-
-final Animatable<int> _kStepTween1 = StepTween(begin: 0, end: 5);
-
-final Animatable<double> _kRotationTween = CurveTween(curve: const SawTooth(5));
-
 class _ColoredRefreshProgressIndicatorState extends State<ColoredRefreshProgressIndicator> with SingleTickerProviderStateMixin {
+  static const int _pathCount = _kIndeterminateCircularDuration ~/ 1333;
+  static const int _rotationCount = _kIndeterminateCircularDuration ~/ 2222;
+
+  // Tweens used by colored refresh indicator
+  static final Animatable<double> _strokeHeadTween = CurveTween(
+    curve: const Interval(0.0, 0.5, curve: Curves.fastOutSlowIn),
+  ).chain(CurveTween(
+    curve: const SawTooth(_pathCount),
+  ));
+  static final Animatable<double> _strokeTailTween = CurveTween(
+    curve: const Interval(0.5, 1.0, curve: Curves.fastOutSlowIn),
+  ).chain(CurveTween(
+    curve: const SawTooth(_pathCount),
+  ));
+  static final Animatable<double> _offsetTween = CurveTween(curve: const SawTooth(_pathCount));
+  static final Animatable<double> _rotationTween = CurveTween(curve: const SawTooth(_rotationCount));
+  
   AnimationController _controller;
   final double _indicatorSize = 40.0;
   Animatable<Color> _tweenSequence = kCircularTweenSequence;
@@ -165,7 +167,7 @@ class _ColoredRefreshProgressIndicatorState extends State<ColoredRefreshProgress
   void initState() {
     super.initState();
     _controller = AnimationController(
-      duration: const Duration(seconds: 5),
+      duration: const Duration(milliseconds: _kIndeterminateCircularDuration),
       vsync: this,
     );
     if (widget.value == null) {
@@ -189,7 +191,7 @@ class _ColoredRefreshProgressIndicatorState extends State<ColoredRefreshProgress
     super.dispose();
   }
 
-  Widget _buildIndicator(BuildContext context, double headValue, double tailValue, int stepValue, double rotationValue) {
+  Widget _buildIndicator(BuildContext context, double headValue, double tailValue, double offsetValue, double rotationValue) {
     final double arrowheadScale = widget.value == null ? 0.0 : ((widget.value * 2.0).clamp(0.0, 1.0) as double);
     
     String expandedSemanticsValue = widget.semanticsValue;
@@ -217,7 +219,7 @@ class _ColoredRefreshProgressIndicatorState extends State<ColoredRefreshProgress
                 valueColor: _tweenSequence.evaluate(AlwaysStoppedAnimation(_controller.value)),
                 headValue: headValue,
                 tailValue: tailValue,
-                stepValue: stepValue,
+                offsetValue: offsetValue,
                 rotationValue: rotationValue,
                 strokeWidth: widget.strokeWidth,
                 arrowheadScale: arrowheadScale,
@@ -235,10 +237,10 @@ class _ColoredRefreshProgressIndicatorState extends State<ColoredRefreshProgress
       builder: (BuildContext context, Widget child) {
         return _buildIndicator(
           context,
-          _kStrokeHeadTween.evaluate(_controller),
-          _kStrokeTailTween.evaluate(_controller),
-          _kStepTween1.evaluate(_controller),
-          _kRotationTween.evaluate(_controller),
+          _strokeHeadTween.evaluate(_controller),
+          _strokeTailTween.evaluate(_controller),
+          _offsetTween.evaluate(_controller),
+          _rotationTween.evaluate(_controller),
         );
       },
     );
@@ -251,7 +253,7 @@ class _ColoredRefreshProgressIndicatorState extends State<ColoredRefreshProgress
   @override
   Widget build(BuildContext context) {
     if (widget.value != null)
-      _controller.value = widget.value / 10.0;
+      _controller.value = widget.value * (1333 / 2 / _kIndeterminateCircularDuration);
     else if (!_controller.isAnimating) {
       _controller.repeat();
     }

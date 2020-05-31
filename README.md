@@ -77,6 +77,7 @@ See [CHANGELOG.md](https://github.com/Abhi011999/flutter_colored_progress_indica
 
 ## TO-DO
 
+- [ ] Merge changes from official flutter dev branch
 - [ ] Shorter names for indicators
 - [x] Default color accents (they are a bit dark now)
 - [ ] Animation speed control factor
