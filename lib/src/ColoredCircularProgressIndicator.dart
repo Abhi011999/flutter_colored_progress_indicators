@@ -35,13 +35,13 @@ class ColoredCircularProgressIndicator extends ProgressIndicator {
 
 class _ColoredCircularProgressIndicatorState extends State<ColoredCircularProgressIndicator> with SingleTickerProviderStateMixin {
   AnimationController _controller;
-  Animatable<Color> _tweenSequence = kCircularTweenSequence;
+  Animatable<Color> _tweenSequence = circularTweenSequence;
 
   @override
   void initState() {
     super.initState();
     _controller = AnimationController(
-      duration: const Duration(seconds: 5),
+      duration: const Duration(milliseconds: 6665),
       vsync: this,
     )..repeat();
   }
@@ -61,7 +61,7 @@ class _ColoredCircularProgressIndicatorState extends State<ColoredCircularProgre
             key: widget.key,
             value: widget.value,
             backgroundColor: widget.backgroundColor,
-            valueColor: AlwaysStoppedAnimation<Color>(_tweenSequence.evaluate(AlwaysStoppedAnimation(_controller.value))),
+            valueColor: AlwaysStoppedAnimation<Color>(_tweenSequence.evaluate(_controller)),
             strokeWidth: widget.strokeWidth,
             semanticsLabel: widget.semanticsLabel,
             semanticsValue: widget.semanticsValue,

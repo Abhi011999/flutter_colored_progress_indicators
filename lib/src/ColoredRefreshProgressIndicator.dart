@@ -141,7 +141,7 @@ class ColoredRefreshProgressIndicator extends ProgressIndicator {
   _ColoredRefreshProgressIndicatorState createState() => _ColoredRefreshProgressIndicatorState();
 }
 
-class _ColoredRefreshProgressIndicatorState extends State<ColoredRefreshProgressIndicator> with SingleTickerProviderStateMixin {
+class _ColoredRefreshProgressIndicatorState extends State<ColoredRefreshProgressIndicator> with TickerProviderStateMixin {
   static const int _pathCount = _kIndeterminateCircularDuration ~/ 1333;
   static const int _rotationCount = _kIndeterminateCircularDuration ~/ 2222;
 
@@ -160,8 +160,9 @@ class _ColoredRefreshProgressIndicatorState extends State<ColoredRefreshProgress
   static final Animatable<double> _rotationTween = CurveTween(curve: const SawTooth(_rotationCount));
   
   AnimationController _controller;
+  AnimationController _colorController;
   final double _indicatorSize = 40.0;
-  Animatable<Color> _tweenSequence = kCircularTweenSequence;
+  Animatable<Color> _tweenSequence = circularTweenSequence;
 
   @override
   void initState() {
@@ -170,8 +171,13 @@ class _ColoredRefreshProgressIndicatorState extends State<ColoredRefreshProgress
       duration: const Duration(milliseconds: _kIndeterminateCircularDuration),
       vsync: this,
     );
+    _colorController = AnimationController(
+      duration: const Duration(milliseconds: 6665),
+      vsync: this,
+    );
     if (widget.value == null) {
       _controller.repeat();
+      _colorController.repeat();
     }
   }
 
@@ -180,6 +186,7 @@ class _ColoredRefreshProgressIndicatorState extends State<ColoredRefreshProgress
     super.didUpdateWidget(oldWidget);
     if (widget.value == null && !_controller.isAnimating) {
       _controller.repeat();
+      _colorController.repeat();
     }
     else if (widget.value != null && _controller.isAnimating)
       _controller.stop();
@@ -188,6 +195,7 @@ class _ColoredRefreshProgressIndicatorState extends State<ColoredRefreshProgress
   @override
   void dispose() {
     _controller.dispose();
+    _colorController.dispose();
     super.dispose();
   }
 
@@ -216,7 +224,7 @@ class _ColoredRefreshProgressIndicatorState extends State<ColoredRefreshProgress
             child: CustomPaint(
               painter: _ColoredRefreshProgressIndicatorPainter(
                 value: null, // Draw the indeterminate progress indicator.
-                valueColor: _tweenSequence.evaluate(AlwaysStoppedAnimation(_controller.value)),
+                valueColor: _tweenSequence.evaluate(_colorController),
                 headValue: headValue,
                 tailValue: tailValue,
                 offsetValue: offsetValue,
@@ -256,6 +264,7 @@ class _ColoredRefreshProgressIndicatorState extends State<ColoredRefreshProgress
       _controller.value = widget.value * (1333 / 2 / _kIndeterminateCircularDuration);
     else if (!_controller.isAnimating) {
       _controller.repeat();
+      _colorController.repeat();
     }
     return _buildAnimation();
   }

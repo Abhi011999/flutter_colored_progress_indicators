@@ -38,7 +38,7 @@ class ColoredLinearProgressIndicator extends ProgressIndicator {
 
 class _ColoredLinearProgressIndicatorState extends State<ColoredLinearProgressIndicator> with SingleTickerProviderStateMixin {
   AnimationController _controller;
-  Animatable<Color> _tweenSequence = kLinearTweenSequence;
+  Animatable<Color> _tweenSequence = linearTweenSequence;
 
   @override
   void initState() {
@@ -65,7 +65,7 @@ class _ColoredLinearProgressIndicatorState extends State<ColoredLinearProgressIn
             value: widget.value,
             backgroundColor: widget.backgroundColor,
             minHeight: widget.minHeight ?? 4.0,
-            valueColor: AlwaysStoppedAnimation<Color>(_tweenSequence.evaluate(AlwaysStoppedAnimation(_controller.value))),
+            valueColor: AlwaysStoppedAnimation<Color>(_tweenSequence.evaluate(_controller)),
             semanticsLabel: widget.semanticsLabel,
             semanticsValue: widget.semanticsValue,
           );
