@@ -30,7 +30,7 @@ class ColoredProgressDemo extends StatefulWidget {
 
 class _ColoredProgressDemoState extends State<ColoredProgressDemo> {
   Future<void> _refreshState() async {
-    await Future.delayed(Duration(seconds: 5));
+    await Future.delayed(Duration(seconds: 7));
   }
 
   @override
@@ -91,5 +91,4 @@ class _ColoredProgressDemoState extends State<ColoredProgressDemo> {
     );
   }
 }
-
 ```

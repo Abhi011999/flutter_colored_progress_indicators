@@ -1,7 +1,5 @@
 # flutter_colored_progress_indicators <span> | </span> <a href="https://pub.dev/packages/flutter_colored_progress_indicators"><img src="https://img.shields.io/badge/pub.dev-v1.0.1-red?style=flat-square" alt="flutter"/></a> <a href="https://flutter.dev/"><img src="https://img.shields.io/badge/Built with-flutter-blue?style=flat-square" alt="flutter"/></a>
 
-<p align="center"><img src="https://raw.githubusercontent.com/Abhi011999/flutter_colored_progress_indicators/master/images/example_readme.gif" alt="example"/></p>
-
 ---
 
 <p align="center"><img src="https://raw.githubusercontent.com/Abhi011999/flutter_colored_progress_indicators/master/images/example.gif" alt="example"/></p>
@@ -77,9 +75,9 @@ See [CHANGELOG.md](https://github.com/Abhi011999/flutter_colored_progress_indica
 
 ## TO-DO
 
-- [ ] Merge changes from official flutter dev branch
+- [x] Merge changes from official flutter dev branch
 - [ ] Shorter names for indicators
-- [x] Default color accents (they are a bit dark now)
+- [x] Google color accents
 - [ ] Animation speed control factor
 - [x] Refactoring
 
