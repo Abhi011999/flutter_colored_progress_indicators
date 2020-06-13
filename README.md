@@ -1,4 +1,4 @@
-# flutter_colored_progress_indicators <span> | </span> <a href="https://pub.dev/packages/flutter_colored_progress_indicators"><img src="https://img.shields.io/badge/pub.dev-v1.0.1-red?style=flat-square" alt="flutter"/></a> <a href="https://flutter.dev/"><img src="https://img.shields.io/badge/Built with-flutter-blue?style=flat-square" alt="flutter"/></a>
+# flutter_colored_progress_indicators <span> | </span> <a href="https://pub.dev/packages/flutter_colored_progress_indicators"><img src="https://img.shields.io/badge/pub.dev-v1.2.0-red?style=flat-square" alt="flutter"/></a> <a href="https://flutter.dev/"><img src="https://img.shields.io/badge/Built with-flutter-blue?style=flat-square" alt="flutter"/></a>
 
 ---
 
@@ -20,7 +20,7 @@ In the `pubspec.yaml` of your flutter project, add the following dependency:
 ```yaml
 dependencies:
   ...
-  flutter_colored_progress_indicators: ^1.1.0
+  flutter_colored_progress_indicators: ^1.2.0
 ```
 
 In your library add the following import:
