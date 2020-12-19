@@ -12,12 +12,12 @@ class ColoredCircularProgressIndicator extends ProgressIndicator {
   ///
   /// {@macro flutter.material.progressIndicator.parameters}
   const ColoredCircularProgressIndicator({
-    Key key,
-    double value,
-    Color backgroundColor,
+    Key? key,
+    double? value,
+    Color? backgroundColor,
     this.strokeWidth = 4.0,
-    String semanticsLabel,
-    String semanticsValue,
+    String? semanticsLabel,
+    String? semanticsValue,
   }) : super(
           key: key,
           value: value,
@@ -34,8 +34,8 @@ class ColoredCircularProgressIndicator extends ProgressIndicator {
 }
 
 class _ColoredCircularProgressIndicatorState extends State<ColoredCircularProgressIndicator> with SingleTickerProviderStateMixin {
-  AnimationController _controller;
-  Animatable<Color> _tweenSequence = circularTweenSequence;
+  late AnimationController _controller;
+  Animatable<Color?> _tweenSequence = circularTweenSequence;
 
   @override
   void initState() {
@@ -61,7 +61,7 @@ class _ColoredCircularProgressIndicatorState extends State<ColoredCircularProgre
             key: widget.key,
             value: widget.value,
             backgroundColor: widget.backgroundColor,
-            valueColor: AlwaysStoppedAnimation<Color>(_tweenSequence.evaluate(_controller)),
+            valueColor: AlwaysStoppedAnimation<Color?>(_tweenSequence.evaluate(_controller)),
             strokeWidth: widget.strokeWidth,
             semanticsLabel: widget.semanticsLabel,
             semanticsValue: widget.semanticsValue,

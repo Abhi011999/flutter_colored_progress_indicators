@@ -12,12 +12,12 @@ class ColoredLinearProgressIndicator extends ProgressIndicator {
   ///
   /// {@macro flutter.material.progressIndicator.parameters}
   const ColoredLinearProgressIndicator({
-    Key key,
-    double value,
-    Color backgroundColor,
+    Key? key,
+    double? value,
+    Color? backgroundColor,
     this.minHeight,
-    String semanticsLabel,
-    String semanticsValue,
+    String? semanticsLabel,
+    String? semanticsValue,
   }) : assert(minHeight == null || minHeight > 0),
        super(
           key: key,
@@ -30,15 +30,15 @@ class ColoredLinearProgressIndicator extends ProgressIndicator {
   /// The minimum height of the line used to draw the indicator.
   ///
   /// This defaults to 4dp.
-  final double minHeight;
+  final double? minHeight;
 
   @override
   _ColoredLinearProgressIndicatorState createState() => _ColoredLinearProgressIndicatorState();
 }
 
 class _ColoredLinearProgressIndicatorState extends State<ColoredLinearProgressIndicator> with SingleTickerProviderStateMixin {
-  AnimationController _controller;
-  Animatable<Color> _tweenSequence = linearTweenSequence;
+  late AnimationController _controller;
+  Animatable<Color?> _tweenSequence = linearTweenSequence;
 
   @override
   void initState() {
@@ -65,7 +65,7 @@ class _ColoredLinearProgressIndicatorState extends State<ColoredLinearProgressIn
             value: widget.value,
             backgroundColor: widget.backgroundColor,
             minHeight: widget.minHeight ?? 4.0,
-            valueColor: AlwaysStoppedAnimation<Color>(_tweenSequence.evaluate(_controller)),
+            valueColor: AlwaysStoppedAnimation<Color>(_tweenSequence.evaluate(_controller)!),
             semanticsLabel: widget.semanticsLabel,
             semanticsValue: widget.semanticsValue,
           );

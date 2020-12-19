@@ -25,22 +25,22 @@ class _ColoredRefreshProgressIndicatorPainter extends CustomPainter {
     this.arrowheadScale
   }) : arcStart = value != null
          ? _startAngle
-         : _startAngle + tailValue * 3 / 2 * math.pi + rotationValue * math.pi * 2.0 + offsetValue * 0.5 * math.pi,
+         : _startAngle + tailValue! * 3 / 2 * math.pi + rotationValue! * math.pi * 2.0 + offsetValue! * 0.5 * math.pi,
        arcSweep = value != null
-         ? (value.clamp(0.0, 1.0) as double) * _sweep
-         : math.max(headValue * 3 / 2 * math.pi - tailValue * 3 / 2 * math.pi, _epsilon);
+         ? value.clamp(0.0, 1.0) * _sweep
+         : math.max(headValue! * 3 / 2 * math.pi - tailValue! * 3 / 2 * math.pi, _epsilon);
 
-  final Color backgroundColor;
-  final Color valueColor;
-  final double value;
-  final double headValue;
-  final double tailValue;
-  final double offsetValue;
-  final double rotationValue;
-  final double strokeWidth;
+  final Color? backgroundColor;
+  final Color? valueColor;
+  final double? value;
+  final double? headValue;
+  final double? tailValue;
+  final double? offsetValue;
+  final double? rotationValue;
+  final double? strokeWidth;
   final double arcStart;
   final double arcSweep;
-  final double arrowheadScale;
+  final double? arrowheadScale;
 
   static const double _twoPi = math.pi * 2.0;
   static const double _epsilon = .001;
@@ -57,9 +57,9 @@ class _ColoredRefreshProgressIndicatorPainter extends CustomPainter {
 
     assert(size.width == size.height);
     final double radius = size.width / 2.0;
-    final double arrowheadPointX = radius + ux * radius + -uy * strokeWidth * 2.0 * arrowheadScale;
-    final double arrowheadPointY = radius + uy * radius +  ux * strokeWidth * 2.0 * arrowheadScale;
-    final double arrowheadRadius = strokeWidth * 1.5 * arrowheadScale;
+    final double arrowheadPointX = radius + ux * radius + -uy * strokeWidth! * 2.0 * arrowheadScale!;
+    final double arrowheadPointY = radius + uy * radius +  ux * strokeWidth! * 2.0 * arrowheadScale!;
+    final double arrowheadRadius = strokeWidth! * 1.5 * arrowheadScale!;
     final double innerRadius = radius - arrowheadRadius;
     final double outerRadius = radius + arrowheadRadius;
 
@@ -69,8 +69,8 @@ class _ColoredRefreshProgressIndicatorPainter extends CustomPainter {
       ..lineTo(arrowheadPointX, arrowheadPointY)
       ..close();
     final Paint paint = Paint()
-      ..color = valueColor
-      ..strokeWidth = strokeWidth
+      ..color = valueColor!
+      ..strokeWidth = strokeWidth!
       ..style = PaintingStyle.fill;
     canvas.drawPath(path, paint);
   }
@@ -78,13 +78,13 @@ class _ColoredRefreshProgressIndicatorPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final Paint paint = Paint()
-      ..color = valueColor
-      ..strokeWidth = strokeWidth
+      ..color = valueColor!
+      ..strokeWidth = strokeWidth!
       ..style = PaintingStyle.stroke;
     if (backgroundColor != null) {
       final Paint backgroundPaint = Paint()
-        ..color = backgroundColor
-        ..strokeWidth = strokeWidth
+        ..color = backgroundColor!
+        ..strokeWidth = strokeWidth!
         ..style = PaintingStyle.stroke;
       canvas.drawArc(Offset.zero & size, 0, _sweep, false, backgroundPaint);
     }
@@ -94,7 +94,7 @@ class _ColoredRefreshProgressIndicatorPainter extends CustomPainter {
 
     canvas.drawArc(Offset.zero & size, arcStart, arcSweep, false, paint);
     
-    if (arrowheadScale > 0.0)
+    if (arrowheadScale! > 0.0)
       paintArrowhead(canvas, size);
   }
 
@@ -119,13 +119,13 @@ class ColoredRefreshProgressIndicator extends ProgressIndicator {
   ///
   /// {@macro flutter.material.progressIndicator.parameters}
   const ColoredRefreshProgressIndicator({
-    Key key,
-    double value,
-    Color backgroundColor,
-    Animation<Color> valueColor,
+    Key? key,
+    double? value,
+    Color? backgroundColor,
+    Animation<Color?>? valueColor,
     this.strokeWidth = 2.0, // Different default than CircularProgressIndicatorPainter.
-    String semanticsLabel,
-    String semanticsValue,
+    String? semanticsLabel,
+    String? semanticsValue,
   }) : super(
     key: key,
     value: value,
@@ -159,10 +159,10 @@ class _ColoredRefreshProgressIndicatorState extends State<ColoredRefreshProgress
   static final Animatable<double> _offsetTween = CurveTween(curve: const SawTooth(_pathCount));
   static final Animatable<double> _rotationTween = CurveTween(curve: const SawTooth(_rotationCount));
   
-  AnimationController _controller;
-  AnimationController _colorController;
+  late AnimationController _controller;
+  late AnimationController _colorController;
   final double _indicatorSize = 40.0;
-  Animatable<Color> _tweenSequence = circularTweenSequence;
+  Animatable<Color?> _tweenSequence = circularTweenSequence;
 
   @override
   void initState() {
@@ -200,11 +200,11 @@ class _ColoredRefreshProgressIndicatorState extends State<ColoredRefreshProgress
   }
 
   Widget _buildIndicator(BuildContext context, double headValue, double tailValue, double offsetValue, double rotationValue) {
-    final double arrowheadScale = widget.value == null ? 0.0 : ((widget.value * 2.0).clamp(0.0, 1.0) as double);
+    final double arrowheadScale = widget.value == null ? 0.0 : (widget.value! * 2.0).clamp(0.0, 1.0);
     
-    String expandedSemanticsValue = widget.semanticsValue;
+    String? expandedSemanticsValue = widget.semanticsValue;
     if (widget.value != null) {
-      expandedSemanticsValue ??= '${(widget.value * 100).round()}%';
+      expandedSemanticsValue ??= '${(widget.value! * 100).round()}%';
     }
 
     // Build Semantics Wrapper
@@ -242,7 +242,7 @@ class _ColoredRefreshProgressIndicatorState extends State<ColoredRefreshProgress
   Widget _buildAnimation() {
     return AnimatedBuilder(
       animation: _controller,
-      builder: (BuildContext context, Widget child) {
+      builder: (BuildContext context, Widget? child) {
         return _buildIndicator(
           context,
           _strokeHeadTween.evaluate(_controller),
@@ -261,7 +261,7 @@ class _ColoredRefreshProgressIndicatorState extends State<ColoredRefreshProgress
   @override
   Widget build(BuildContext context) {
     if (widget.value != null)
-      _controller.value = widget.value * (1333 / 2 / _kIndeterminateCircularDuration);
+      _controller.value = widget.value! * (1333 / 2 / _kIndeterminateCircularDuration);
     else if (!_controller.isAnimating) {
       _controller.repeat();
       _colorController.repeat();
