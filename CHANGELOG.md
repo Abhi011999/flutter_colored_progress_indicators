@@ -1,3 +1,8 @@
+## [1.2.0-nullsafety.0] - 2020-12-20
+
+- Migrated package to NullSafety
+- Upstreamed some changes from flutter lib
+
 ## [1.2.0] - 2020-06-13
 
 - Implemented new animation logic using Animated Builder
